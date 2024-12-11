@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Todo List Manager - Taskmate</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+  <br>
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Task</th>
+        <th scope="col">Done</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for obj in all_task %}
+        {% if obj.done %}
+          <tr class="table-success">
+            <td >{{obj.task}}</td>
+            <td>Completed</td>
+            <td>Delete</td>
+            <td>Edit</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td>{{obj.task}}</td>
+            <td>Not Completed</td>
+            <td>Delete</td>
+            <td>Edit</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+    
+  </table>
+</div>
+{% endblock content %}
