@@ -1,41 +1,63 @@
 {% extends "base.html" %}
 {% block title %}
-<title>Todo List Manager - Taskmate</title>
+   <title>Todo List Manager - Taskmate</title>
 {% endblock title %}
 
 {% block content %}
-
-<div class="container">
-  <br>
-  <table class="table table-bordered">
-    <thead class="table-dark">
-      <tr>
-        <th scope="col">Task</th>
-        <th scope="col">Done</th>
-        <th scope="col">Delete</th>
-        <th scope="col">Edit</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for obj in all_task %}
-        {% if obj.done %}
-          <tr class="table-success">
-            <td >{{obj.task}}</td>
-            <td>Completed</td>
-            <td>Delete</td>
-            <td>Edit</td>
-          </tr>
-        {% else %}
-          <tr>
-            <td>{{obj.task}}</td>
-            <td>Not Completed</td>
-            <td>Delete</td>
-            <td>Edit</td>
-          </tr>
-        {% endif %}
+  <div class="container">
+    <br>
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
       {% endfor %}
-    </tbody>
-    
-  </table>
-</div>
+    {% endif %}
+  
+    <form method="POST">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-lg-4"><label></label></div>
+        <div class="col-lg-6">
+          <input type="text" class="form-control" name="task" placeholder="Add New Task?">
+        </div>
+        <div class="col-lg-2">
+          <button type="submit" class="btn btn-primary">Add Task</button>
+        </div>
+      </div>
+    </form><br>
+    <table class="table table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Task</th>
+          <th scope="col">Done</th>
+          <th scope="col">Delete</th>
+          <th scope="col">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if all_task %}
+          {% for obj in all_task %}
+            {% if obj.done %}
+              <tr class="table-success">
+                <td >{{obj.task}}</td>
+                <td>Completed</td>
+                <td>Delete</td>
+                <td>Edit</td>
+              </tr>
+            {% else %}
+              <tr>
+                <td>{{obj.task}}</td>
+                <td>Not Completed</td>
+                <td>Delete</td>
+                <td>Edit</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </tbody>
+      
+    </table>
+  </div>
 {% endblock content %}
