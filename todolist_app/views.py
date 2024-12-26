@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import TaskList
 from .forms import TaskForm
 from django.contrib import messages
+from django.core.paginator import Paginator
 # Create your views here.
 def todolist(request):
    if request.method == 'POST':
@@ -12,7 +13,10 @@ def todolist(request):
       messages.success(request,'Task Added Successfully !!!')
       return redirect('todolist')
    else:
-      all_task=TaskList.objects.all
+      all_task=TaskList.objects.all()
+      paginator = Paginator(all_task,10)
+      page = request.GET.get('pg')
+      all_task = paginator.get_page(page)
       return render(request,'todolist.html',{'all_task':all_task})
 
 def delete_task(requst,task_id):
@@ -31,6 +35,19 @@ def edit_task(request,task_id):
    else:
       task_obj=TaskList.objects.get(pk=task_id)
       return render(request,'edit.html',{'task_obj':task_obj})
+   
+
+def complete_task(requst,task_id):
+   task=TaskList.objects.get(pk=task_id)
+   task.done= True
+   task.save()
+   return redirect('todolist')
+
+def pending_task(requst,task_id):
+   task=TaskList.objects.get(pk=task_id)
+   task.done= False
+   task.save()
+   return redirect('todolist')
    
 def contact(request):
    context={'contact_text':'welcome to contact page'}

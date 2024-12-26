@@ -42,14 +42,14 @@
             {% if obj.done %}
               <tr class="table-success">
                 <td >{{obj.id}} | {{obj.task}}</td>
-                <td>Completed</td>
+                <td><a href="{% url 'pending_task' obj.id %}">Mark as Pending</a></td>
                 <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
                 <td><a href="{% url 'edit_task' obj.id %}">edit</a></td>
               </tr>
             {% else %}
               <tr>
                 <td>{{obj.id}} | {{obj.task}}</td>
-                <td>Not Completed</td>
+                <td><a href="{% url 'complete_task' obj.id %}">Mark as Completed</a></td>
                 <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
                 <td><a href="{% url 'edit_task' obj.id %}">edit</a></td>
               </tr>
@@ -59,5 +59,21 @@
       </tbody>
       
     </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+
+        {% if all_task.has_previous%}
+          <li class="page-item"><a class="page-link" href="?pg={{all_task.previous_page_number}}">{{all_task.previous_page_number}}</a></li>
+        {% endif %}
+
+        <li class="page-item"><a class="page-link" href="?pg={{all_task.number}}">{{all_task.number}}</a></li>
+        {% if all_task.has_next %}
+          <li class="page-item"><a class="page-link" href="?pg={{all_task.next_page_number}}">{{all_task.next_page_number}}</a></li>
+        {% endif %}
+
+        <li class="page-item"><a class="page-link" href="?pg={{ all_task.paginator.num_pages }}">>></a></li>
+      </ul>
+    </nav>
   </div>
 {% endblock content %}
