@@ -10,11 +10,11 @@ def todolist(request):
       form=TaskForm(request.POST)
       if form.is_valid():
          form.save()
-      messages.success(request,'Task Added Successfully !!!')
+      messages.success(request,'Task Added Successfully !!!') 
       return redirect('todolist')
    else:
       all_task=TaskList.objects.all()
-      paginator = Paginator(all_task,10)
+      paginator = Paginator(all_task,5)
       page = request.GET.get('pg')
       all_task = paginator.get_page(page)
       return render(request,'todolist.html',{'all_task':all_task})
@@ -48,6 +48,10 @@ def pending_task(requst,task_id):
    task.done= False
    task.save()
    return redirect('todolist')
+
+def index(request):
+   context={'index_text':'welcome to todolist'}
+   return render(request,'index.html',context)
    
 def contact(request):
    context={'contact_text':'welcome to contact page'}
