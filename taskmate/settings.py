@@ -31,8 +31,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default='your-default-secret-key')
 DEBUG = env('DJANGO_DEBUG')
 
 ALLOWED_HOSTS = ["*"]
-
-
+CSRF_TRUSTED_ORIGINS = [env('DJANGO_CSRF_TRUSTED_ORIGINS')]
 # Application definition
 
 INSTALLED_APPS = [
