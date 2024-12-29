@@ -6,6 +6,7 @@
 {% block content %}
 <div class="container">
     <br>
+    {% if task_obj.manage == request.user %}
     <form method="POST">
         {% csrf_token %}
         <div class="row">
@@ -19,5 +20,8 @@
           </div>
         </div>
       </form>
+      {% else %}
+        <p>Access Restricted!!, You Are Not Allowed!!</p>
+      {% endif %}
 </div>
 {% endblock content %}
